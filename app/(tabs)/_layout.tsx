@@ -1,12 +1,12 @@
 //TABS layout
 import { colors } from "@/constants/colors";
-import { useAuth } from "@clerk/expo";
-import { Ionicons } from "@expo/vector-icons";
+import { Show, useAuth, useClerk } from "@clerk/expo";
+import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
 import { Redirect, Tabs } from "expo-router";
-import { ActivityIndicator, View } from "react-native";
+import { ActivityIndicator, Pressable, View } from "react-native";
 export default function TabsLayout() {
   const { isSignedIn, isLoaded } = useAuth();
-
+  const { signOut } = useClerk();
   if (!isLoaded) {
     return (
       <View
@@ -36,6 +36,7 @@ export default function TabsLayout() {
           elevation: 0,
           height: 70,
         },
+        tabBarShowLabel: false,
         tabBarActiveTintColor: colors.white_contrast,
       }}
     >
@@ -51,9 +52,32 @@ export default function TabsLayout() {
       <Tabs.Screen
         name="logs"
         options={{
+          headerShown: true,
+          headerTitle: "",
+          headerTransparent: true,
+          headerRight: () => (
+            <View style={{ flexDirection: "row", marginRight: 15, gap: 25 }}>
+              <Pressable>
+                <Ionicons
+                  name="settings-sharp"
+                  size={24}
+                  color={colors.white_contrast}
+                />
+              </Pressable>
+              <Show when="signed-in">
+                <Pressable onPress={() => signOut()}>
+                  <MaterialCommunityIcons
+                    name="logout"
+                    size={24}
+                    color={colors.white_contrast}
+                  ></MaterialCommunityIcons>
+                </Pressable>
+              </Show>
+            </View>
+          ), // make header sit right over the other content
           title: "Logs",
           tabBarIcon: ({ color, size }) => (
-            <Ionicons name="caret-up-sharp" color={color} size={size} />
+            <MaterialCommunityIcons name="book" color={color} size={size} />
           ),
         }}
       />

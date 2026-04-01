@@ -1,27 +1,17 @@
 import { colors } from "@/constants/colors";
-import { Show, useClerk, useUser } from "@clerk/expo";
-import { Pressable, StyleSheet, Text } from "react-native";
+// import { useUser } from "@clerk/expo";
+import { StyleSheet } from "react-native";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 const Logs = () => {
-  const { user } = useUser();
-  const { signOut } = useClerk();
-  return (
-    <SafeAreaProvider style={styles.main}>
-      <Show when="signed-in">
-        {/* <Text>Hello {user?.emailAddresses[0].emailAddress}</Text> */}
-        <Pressable style={styles.button} onPress={() => signOut()}>
-          <Text style={styles.buttonText}>Sign out</Text>
-        </Pressable>
-      </Show>
-    </SafeAreaProvider>
-  );
+  // const { user } = useUser();
+  return <SafeAreaProvider style={styles.main}></SafeAreaProvider>;
 };
 
 const styles = StyleSheet.create({
   main: {
     flex: 1,
     padding: 20,
-    paddingTop: 60,
+    paddingTop: 80,
     gap: 16,
     backgroundColor: colors.primary_background,
   },

@@ -1,6 +1,6 @@
 import { colors } from "@/constants/colors";
 import { useClerk, useUser } from "@clerk/expo";
-import { StyleSheet, Text } from "react-native";
+import { StyleSheet } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 export default function Page() {
   const { user } = useUser();
@@ -8,9 +8,7 @@ export default function Page() {
 
   return (
     <>
-      <SafeAreaView style={styles.main}>
-        <Text>dsklfj</Text>
-      </SafeAreaView>
+      <SafeAreaView style={styles.main}></SafeAreaView>
     </>
   );
 }
