@@ -5,6 +5,8 @@ const palette = {
   light_gray: "#888888",
   dark_gray: "#3E3E3E",
   red: "#E05C5C",
+  blue: "#3ea2d8",
+  green: "#07c46c",
 };
 
 export const colors = {

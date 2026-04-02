@@ -7,16 +7,14 @@ const GAP = 3;
 const DAYS_IN_WEEK = 7;
 const DAY_LABELS = ["", "M", "", "W", "", "F", ""];
 
-// Intensity scale: warm red tones to match the app's red accent
 function getIntensityColor(intensity: number | undefined): string {
   if (!intensity || intensity === 0) return "#2A2A2A"; // near palette.dark_gray
   if (intensity === 1) return "#ffffff45";
   if (intensity === 2) return "#ffffffa4";
   if (intensity === 3) return "#ffffffcc";
-  return "#fcfbfb"; // palette.red — max intensity matches app accent
+  return "#fcfbfb";
 }
 
-// Moved outside — stable, never changes
 function resolveDate(value: string): string {
   if (value === "today") return new Date().toISOString().slice(0, 10);
   return value;
@@ -102,13 +100,11 @@ const WeekColumn = memo(
 );
 
 const Heatmap = memo(({ startDate, endDate, data }: HeatmapConfig) => {
-  // Resolve "today" once per render, before memo
   const resolvedEnd = useMemo(() => resolveDate(endDate), [endDate]);
   const resolvedStart = useMemo(() => resolveDate(startDate), [startDate]);
 
   const { weeks, monthLabels, totalDays, activeDays, dataMap } = useMemo(
     () => buildHeatmapData(resolvedStart, resolvedEnd, data),
-    // eslint-disable-next-line react-hooks/exhaustive-deps
     [resolvedStart, resolvedEnd, data],
   );
 
@@ -116,7 +112,6 @@ const Heatmap = memo(({ startDate, endDate, data }: HeatmapConfig) => {
 
   return (
     <View style={styles.wrapper}>
-      {/* Stats Row */}
       <View style={styles.statsRow}>
         <View style={styles.statBox}>
           <Text style={styles.statValue}>{activeDays}</Text>
@@ -136,9 +131,7 @@ const Heatmap = memo(({ startDate, endDate, data }: HeatmapConfig) => {
         </View>
       </View>
 
-      {/* Grid */}
       <View style={styles.gridWrapper}>
-        {/* Day labels — outside scroll, stays pinned */}
         <View style={styles.dayLabels}>
           {DAY_LABELS.map((label, i) => (
             <Text key={i} style={styles.dayLabelText}>
@@ -147,14 +140,12 @@ const Heatmap = memo(({ startDate, endDate, data }: HeatmapConfig) => {
           ))}
         </View>
 
-        {/* Scrollable heatmap body */}
         <ScrollView
           horizontal
           showsHorizontalScrollIndicator={false}
           contentContainerStyle={styles.scrollContent}
         >
           <View>
-            {/* Month labels */}
             <View style={[styles.monthRow, { width: monthRowWidth }]}>
               {monthLabels.map(({ label, colIndex }) => (
                 <Text
@@ -166,7 +157,6 @@ const Heatmap = memo(({ startDate, endDate, data }: HeatmapConfig) => {
               ))}
             </View>
 
-            {/* Heatmap columns */}
             <View style={styles.grid}>
               {weeks.map((week, wi) => (
                 <WeekColumn key={wi} week={week} dataMap={dataMap} />
@@ -176,7 +166,6 @@ const Heatmap = memo(({ startDate, endDate, data }: HeatmapConfig) => {
         </ScrollView>
       </View>
 
-      {/* Legend */}
       <View style={styles.legend}>
         <Text style={styles.legendText}>Less</Text>
         {[undefined, 1, 2, 3, 4].map((v, i) => (
